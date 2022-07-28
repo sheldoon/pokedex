@@ -15,7 +15,7 @@ export default function Main() {
     <View style={styles.container}>
       <Image style={styles.pokeball } source={require("pokemon/src/assets/pokebal.png")}/>
       <Text style={styles.title }>Pokédex</Text>
-   <Index FirstPoke={1} LastPoke={150}/>
+   <Index FirstPoke={1} LastPoke={50}/>
    
     </View>
   )

@@ -1,14 +1,15 @@
 import { View, Text , Image} from 'react-native'
-import { useState } from 'react'
+import { memo, PureComponent, useState } from 'react'
 import { useEffect } from 'react'
 import React from 'react'
 import api from '../../../services/api'
 import styles from './styles'
 
-export default function Square(props) {
-  const [infoPoke, setInfoPoke] = useState({})
-  const [poketype, setpoketype] = useState("")
+const Square = (props) => {
+  const [pokeNAME, setInfoPoke] = useState({})
+  const [poketype, setpoketype] = useState()
   const [pokesprite, setpokesprite] = useState("a")
+  const [pokeid, setpokeid] = useState()
   const [typeGrass, setGrass] = useState(false)
   const [typewater, setwater] = useState(false)
   const [typefire, settypefire] = useState(false)
@@ -29,73 +30,71 @@ export default function Square(props) {
   const [typesteel, setsteel] = useState(false)
 
   var types = []
+  
 
-  api.get(props.PokeID).then((response) => {
-    setInfoPoke(response.data) });
-  api.get(props.PokeID).then((response) => {
-      setpoketype(response.data.types[0].type) });
-  api.get(props.PokeID).then((response) => {
-    setpokesprite(response.data.sprites.other["official-artwork"].front_default)
-  })
     var size = 1
     useEffect(() => {
+      setInfoPoke(props.PokeNAME)
+      setpoketype(props.typePOKE)
+      setpokesprite(props.sprite)
+      setpokeid(props.id)
 
-    if((poketype.name) == "water"){
+    if((poketype) == "water"){
       setwater(true);
         }
-    else if(poketype.name == "fire"){
+    else if(poketype == "fire"){
       settypefire(true)
     }
-    else  if(poketype.name == "grass"){
+    else  if(poketype == "grass"){
       setGrass(true)
     }
-    else if(poketype.name == "normal"){
+    else if(poketype == "normal"){
       setnormal(true)
     }
-    else if(poketype.name == "bug"){
+    else if(poketype == "bug"){
       setbug(true)
     }
-    else if(poketype.name == "poison"){
+    else if(poketype == "poison"){
       setpoison(true)
     }
-    else if(poketype.name == "dark"){
+    else if(poketype == "dark"){
       setdark(true)
     }
-    else if(poketype.name == "dragon"){
+    else if(poketype == "dragon"){
       setdragon(true)
     }
-    else if(poketype.name == "electric"){
+    else if(poketype == "electric"){
       seteletric(true)
     }
-    else if(poketype.name == "fairy"){
+    else if(poketype == "fairy"){
       setfairy(true)
     }
-    else if(poketype.name == "fighting"){
+    else if(poketype == "fighting"){
       setfighting(true)
     }
-    else if(poketype.name == "flying"){
+    else if(poketype == "flying"){
       setflying(true)
     }
-    else if(poketype.name == "ghost"){
+    else if(poketype == "ghost"){
       setghost(true)
     }
 
-    else if(poketype.name == "ground"){
+    else if(poketype == "ground"){
       setground(true)
     }
 
-    else if(poketype.name == "ice"){
+    else if(poketype == "ice"){
       setice(true)
     }
-    else if(poketype.name == "psychic"){
+    else if(poketype == "psychic"){
       setpsychic(true)
     }
 
-    else if(poketype.name == "rock"){
+    else if(poketype == "rock"){
       setrock(true)
     }
 
-    else if(poketype.name == "steel"){
+    else if(poketype == "steel"){
       setsteel(true)
     }
 
@@ -106,17 +105,18 @@ export default function Square(props) {
 
     return (
       <View style={{zIndex: -1}}>
-       {renderElement(typewater, typeGrass, typefire, typebug,typenormal, typepoison, typedark, typedragon, typeeletric, typefairy, typefighting, typeflying, typeghost,  typeground, typeice, typepsychic, typerock, typesteel, infoPoke, pokesprite)}
+       {renderElement(typewater, typeGrass, typefire, typebug,typenormal, typepoison, typedark, typedragon, typeeletric, typefairy, typefighting, typeflying, typeghost,  typeground, typeice, typepsychic, typerock, typesteel, pokeNAME, pokesprite, pokeid)}
       </View>
     )
   }
+  export default memo(Square);
 
- function renderElement(typewater, typeGrass, typefire,typebug,typenormal, typepoison, typedark, typedragon, typeeletric, typefairy, typefighting, typeflying, typeghost,  typeground, typeice, typepsychic, typerock, typesteel, infoPoke, pokesprite){
+ function renderElement(typewater, typeGrass, typefire,typebug,typenormal, typepoison, typedark, typedragon, typeeletric, typefairy, typefighting, typeflying, typeghost,  typeground, typeice, typepsychic, typerock, typesteel, pokeNAME, pokesprite, pokeid){
     if(typewater == true){
       return(
         <View style={styles.secondviewBlue}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/water.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
         
@@ -126,8 +126,8 @@ export default function Square(props) {
     if(typeGrass == true){
       return(
         <View style={styles.secondviewGreen}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/grass.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
        
@@ -138,8 +138,8 @@ export default function Square(props) {
     if(typefire == true){
       return(
         <View style={styles.secondviewRed}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/fire.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -149,8 +149,8 @@ export default function Square(props) {
     if(typebug == true){
       return(
         <View style={styles.secondviewBug}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/bug.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -160,8 +160,8 @@ export default function Square(props) {
     if(typenormal == true){
       return(
         <View style={styles.secondviewNormal}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/normal.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -171,8 +171,8 @@ export default function Square(props) {
     if(typepoison == true){
       return(
         <View style={styles.secondviewPoison}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/poison.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -182,8 +182,8 @@ export default function Square(props) {
     if(typedark == true){
       return(
         <View style={styles.secondviewDark}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/dark.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -193,8 +193,8 @@ export default function Square(props) {
     if(typedragon == true){
       return(
         <View style={styles.secondviewDragon}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/dragon.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -204,8 +204,8 @@ export default function Square(props) {
     if(typeeletric == true){
       return(
         <View style={styles.secondviewEletric}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/eletric.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -215,8 +215,8 @@ export default function Square(props) {
     if(typefairy == true){
       return(
         <View style={styles.secondviewFairy}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/fairy.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -226,8 +226,8 @@ export default function Square(props) {
     if(typefighting == true){
       return(
         <View style={styles.secondviewFighting}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/fighting.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -237,8 +237,8 @@ export default function Square(props) {
     if(typeflying == true){
       return(
         <View style={styles.secondviewFlying}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/flying.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -248,8 +248,8 @@ export default function Square(props) {
     if(typeghost == true){
       return(
         <View style={styles.secondviewGhost}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/ghost.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -259,8 +259,8 @@ export default function Square(props) {
     if(typeground == true){
       return(
         <View style={styles.secondviewGround}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/ground.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -270,8 +270,8 @@ export default function Square(props) {
     if(typeice == true){
       return(
         <View style={styles.secondviewIce}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/ice.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -281,8 +281,8 @@ export default function Square(props) {
     if(typepsychic == true){
       return(
         <View style={styles.secondviewPsychic}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/psychic.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -292,8 +292,8 @@ export default function Square(props) {
     if(typerock == true){
       return(
         <View style={styles.secondviewRock}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/rock.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
@@ -303,8 +303,8 @@ export default function Square(props) {
     if(typesteel == true){
       return(
         <View style={styles.secondviewSteel}>
-        <Text style={styles.idpoke}>{"#" + infoPoke.id}</Text>
-        <Text style={styles.pokename}>{infoPoke.name}</Text>
+        <Text style={styles.idpoke}>{"#" + pokeid}</Text>
+        <Text style={styles.pokename}>{pokeNAME}</Text>
         <Image style={styles.typeimage} source={require("pokemon/src/assets/types/steel.png")}/>
         <Image style={styles.pokeimage} source={{uri:pokesprite}}/>
 
