@@ -1,6 +1,6 @@
 
 [![made-with-reactnative](https://img.shields.io/badge/Made%20with-React%20Native-blue)](https://reactnative.dev) 
-
+<a href="https://reactnative.dev" target="_blank"> <img src="https://img.shields.io/badge/Made%20with-React%20Native-blue"/> </a>
 
 <b><h1> Pokédex</h1></b>
 <h3>Primeiro projeto utilizando react native, pokedex da primeira geração de pokemons
