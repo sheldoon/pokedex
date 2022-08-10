@@ -1,4 +1,5 @@
-[![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
+
+[![made-with-reactnative](https://img.shields.io/badge/Made%20with-React%20Native-blue)](https://reactnative.dev) 
 
 
 <b><h1> Pokédex</h1></b>
